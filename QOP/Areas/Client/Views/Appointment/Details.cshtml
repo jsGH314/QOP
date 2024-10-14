@@ -1,0 +1,83 @@
+﻿@* Client Appointment Details Page *@
+@model QOP.Models.Appointment
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<form method="post">
+ <div class="card shadow border-0 mt-4 mb-4">
+        <div class="card-header bg-secondary bg-gradient text-light py-4">
+            <div class="row">
+                <div class="col-12 text-center">
+                    <h3 class="text-white text-uppercase">@Model.ApptDate.ToShortDateString() at @Model.ApptTime.ToShortTimeString()</h3>
+                    <h1 class="text-white">Appointment with @Model.StaffName</h1>
+                    @* <p class="text-white-50 fw-semibold mb-0">by @Model.JournalEntry.ApplicationUser</p> *@
+                </div>
+            </div>
+        </div>
+    <div class="card-body">
+        <div class="py-3">
+            <div class="row">
+                <div class="col-6 col-md-2 offset-lg-1 pb-1">
+                        <a asp-controller="Home" asp-action="Index" class="btn btn-outline-primary bg-gradient mb-5 fw-semibold btn-sm text-uppercase">
+                            <small>Back to home</small>
+                        </a>
+                    </div>
+                <div class="col-6 col-md-2">
+                        <a asp-controller="Appointment" asp-action="Edit" asp-route-id="@Model?.Id" class="btn btn-outline-primary bg-gradient mb-5 fw-semibold btn-sm text-uppercase">
+                            <small>Edit</small>
+                        </a>
+                    </div>
+            </div>
+            <div class="row">
+                <div class="col-12 col-lg-6 offset-lg-1">
+                    <dl class="row">
+                        <dt class="col-sm-2">
+                            @Html.DisplayNameFor(model => model.StaffName)
+                        </dt>
+                        <dd class="col-sm-10">
+                            @Html.DisplayFor(model => model.StaffName)
+                        </dd>
+                        @*         <dt class = "col-sm-2">
+                        @Html.DisplayNameFor(model => model.StaffId)
+                        </dt>
+                        <dd class = "col-sm-10">
+                        @Html.DisplayFor(model => model.StaffId)
+                        </dd> *@
+                        <dt class="col-sm-2">
+                            @Html.DisplayNameFor(model => model.isTransportAppt)
+                        </dt>
+                        <dd class="col-sm-10">
+                            @Html.DisplayFor(model => model.isTransportAppt)
+                        </dd>
+                        <dt class="col-sm-2">
+                            @Html.DisplayNameFor(model => model.ApptDate)
+                        </dt>
+                        <dd class="col-sm-10">
+                            @Html.DisplayFor(model => model.ApptDate)
+                        </dd>
+                        <dt class="col-sm-2">
+                            @Html.DisplayNameFor(model => model.ApptTime)
+                        </dt>
+                        <dd class="col-sm-10">
+                            @Html.DisplayFor(model => model.ApptTime)
+                        </dd>
+                        <dt class="col-sm-2">
+                            @Html.DisplayNameFor(model => model.status)
+                        </dt>
+                        <dd class="col-sm-10">
+                            @Html.DisplayFor(model => model.status)
+                        </dd>
+                    </dl>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</form>
+<div>
+    <a asp-controller="Appointment" asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> |
+    <a asp-controller="Home" asp-action="Index">Back to List</a>
+</div>
+

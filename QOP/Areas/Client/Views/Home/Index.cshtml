@@ -1,0 +1,100 @@
+﻿@model ClientHomeVM
+
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="row pb-3">
+    <h3>Scheduled Appointments</h3>
+    @foreach (var appointment in Model.AppointmentList)
+    {
+        <div class="col-lg-3 col-sm-6">
+            <div class="row p-2">
+                <div class="col-12 p-1">
+                    <div class="card border-0 p-3 shadow  border-top border-5 rounded">
+                        <div class="card-body pb-0">
+                            <div class="pl-1">
+                                <p class="card-title h5 text-dark opacity-75 text-uppercase text-center">@appointment.ApptDate.ToShortDateString()</p>
+                                <p class="card-title h5 text-dark opacity-75 text-uppercase text-center">@appointment.ApptTime.ToShortTimeString()</p>
+                                @if(User.IsInRole(SD.Role_Staff))
+                                {
+                                    <p class="card-title text-warning text-center">with <b>@appointment.ClientName</b></p>
+                                }
+                                @if (User.IsInRole(SD.Role_Client))
+                                {
+                                    <p class="card-title text-warning text-center">with <b>@appointment.StaffName</b></p>
+                                }
+                                @if(User.IsInRole(SD.Role_Admin))
+                                {
+                                    <p class="card-title text-warning text-center"><b>@appointment.ClientName</b></p>
+                                    <p class="card-title text-warning text-center">with <b>@appointment.StaffName</b></p>
+                                }
+                            </div>
+                        </div>
+                        @if (User.IsInRole(SD.Role_Staff))
+                        {
+                            <div>
+                                <a asp-action="Details" asp-controller="Appointment" asp-area="Staff"
+                                   asp-route-appointmentId="@appointment.Id"
+                                   class="btn btn-primary bg-gradient border-0 form-control">
+                                    Details
+                                </a>
+                            </div>
+                        }
+                        @if (User.IsInRole(SD.Role_Client))
+                        {
+                            <div>
+                                <a asp-action="Details" asp-controller="Appointment" asp-area="Client"
+                                   asp-route-appointmentId="@appointment.Id"
+                                   class="btn btn-primary bg-gradient border-0 form-control">
+                                    Details
+                                </a>
+                            </div>
+                        }
+                        @if (User.IsInRole(SD.Role_Admin))
+                        {
+                            <div>
+                                <a asp-action="Details" asp-controller="Appointment" asp-area="Admin"
+                                   asp-route-appointmentId="@appointment.Id"
+                                   class="btn btn-primary bg-gradient border-0 form-control">
+                                    Details
+                                </a>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+@if(User.IsInRole(SD.Role_Client))
+{
+    <div class="row pb-3">
+        <h3>Journal Entries</h3>
+        @foreach (var entry in Model.EntryList)
+        {
+            <div class="col-lg-3 col-sm-6">
+                <div class="row p-2">
+                    <div class="col-12 p-1">
+                        <div class="card border-0 p-3 shadow  border-top border-5 rounded">
+                            <div class="card-body pb-0">
+                                <div class="pl-1">
+                                    <p class="card-title h5 text-dark opacity-75 text-uppercase text-center">@entry.EntryDate.ToShortDateString()</p>
+                                </div>
+                            </div>
+                            <div>
+                                <a asp-action="Details"
+                                   asp-route-entryId="@entry.Id"
+                                   class="btn btn-primary bg-gradient border-0 form-control">
+                                    Details
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+}
+

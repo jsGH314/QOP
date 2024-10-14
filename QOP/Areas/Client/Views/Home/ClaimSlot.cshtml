@@ -1,0 +1,57 @@
+﻿@model Appointment
+
+@{
+    ViewData["Title"] = "Claim Time Slot";
+}
+
+<h1>ClaimSlot</h1>
+
+<h4>Appointment</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="ClaimSlot">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+@*             <div class="form-group">
+                <label asp-for="ClientId" class="control-label"></label>
+                <input asp-for="ClientId" class="form-control" />
+                <span asp-validation-for="ClientId" class="text-danger"></span>
+            </div> *@
+@*             <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="" /> @Html.DisplayNameFor(model => model.isTransportAppt)
+                </label>
+            </div> *@
+@*             <div class="form-group">
+                <label asp-for="ApptDate" class="control-label"></label>
+                <input asp-for="ApptDate" class="form-control" />
+                <span asp-validation-for="ApptDate" class="text-danger"></span>
+            </div> *@
+@*             <div class="form-group">
+                <label asp-for="ApptTime" class="control-label"></label>
+                <input asp-for="ApptTime" class="form-control" />
+                <span asp-validation-for="ApptTime" class="text-danger"></span>
+            </div> *@
+@*             <div class="form-group">
+                <label asp-for="status" class="control-label"></label>
+                <input asp-for="status" class="form-control" />
+                <span asp-validation-for="status" class="text-danger"></span>
+            </div> *@
+@*             <div class="form-group">
+                <label asp-for="ApplicationUserId" class="control-label"></label>
+                <select asp-for="ApplicationUserId" class ="form-control" asp-items="ViewBag.ApplicationUserId"></select>
+            </div> *@
+            <div class="form-group">
+                <input type="submit" value="Claim Time Slot" class="btn btn-primary" asp-route-Id="@Model.Id" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
