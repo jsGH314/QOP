@@ -190,5 +190,50 @@ namespace QOP.Areas.Client.Controllers
 
             return RedirectToAction("Index");
         }
+
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        public IActionResult Cancel(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            Appointment? apptfromDb = _unitOfWork.Appointment.Get(u => u.Id == id);
+            if (apptfromDb == null)
+            {
+                return NotFound();
+            }
+
+            return View(apptfromDb);
+        }
+
+        // POST: Admin/Appointment/Cancel/5
+        [HttpPost, ActionName("Cancel")]
+        [ValidateAntiForgeryToken]
+        public IActionResult CancelConfirmed(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            Appointment? appointment = _unitOfWork.Appointment.Get(u => u.Id == id && u.ClientId == userId);
+
+            if (appointment == null)
+            {
+                return NotFound();
+            }
+
+            appointment.status = "Canceled";
+            _unitOfWork.Appointment.Update(appointment);
+            _unitOfWork.Save();
+            TempData["success"] = "Appointment canceled successfully.";
+
+            return RedirectToAction("Index", "Home", new { area = "" });
+        }
+
     }
 }

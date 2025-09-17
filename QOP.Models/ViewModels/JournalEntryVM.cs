@@ -11,6 +11,14 @@ namespace QOP.Models.ViewModels
         public JournalEntry JournalEntry { get; set; }
         public IEnumerable<JournalEntry> JournalEntryList { get; set; }
 
+        public void OnGet()
+        {
+            JournalEntry = new JournalEntry
+            {
+                EntryDate = DateTime.Now
+            };
+        }
+
 
     }
 }

@@ -1,59 +1,63 @@
 ﻿@model IEnumerable<JournalEntry>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "My Journal Entries";
 }
 
-<h1>Index</h1>
+<style>
+    .journal-card {
+        min-height: 220px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+    }
+    .entry-preview {
+        max-height: 80px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: pre-line;
+    }
+</style>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-@*             <th>
-                @Html.DisplayNameFor(model => model.ClientId)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.JournalId)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.AppointmentId)
-            </th> *@
-            <th>
-                @Html.DisplayNameFor(model => model.Entry)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.EntryDate)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-@*             <td>
-                @Html.DisplayFor(modelItem => item.ClientId)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.JournalId)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.AppointmentId)
-            </td> *@
-            <td>
-                @Html.DisplayFor(modelItem => item.Entry)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.EntryDate)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-entryId="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+<div class="container py-4">
+    <div class="row mb-4">
+        <div class="col-12 text-center">
+            <h2 class="mb-3">My Journal Entries</h2>
+            <a asp-action="Create" class="btn btn-primary px-4">Create New</a>
+        </div>
+    </div>
+
+    @if (!Model.Any())
+    {
+        <div class="row">
+            <div class="col-12 text-center">
+                <div class="alert alert-info fs-5">
+                    You have no journal entries yet.
+                </div>
+            </div>
+        </div>
+    }
+    else
+    {
+        <div class="row g-4">
+            @foreach (var item in Model)
+            {
+                <div class="col-lg-4 col-md-6 col-sm-12">
+                    <div class="card journal-card shadow rounded">
+                        <div class="card-body d-flex flex-column justify-content-center align-items-center">
+                            <p class="h5 text-dark text-uppercase text-center mb-2">@item.EntryDate.ToString("f")</p>
+                            <div class="entry-preview w-100 text-secondary mb-2">
+                                @Html.Raw(item.Entry?.Length > 200 ? item.Entry.Substring(0, 200) + "..." : item.Entry)
+                            </div>
+                        </div>
+                        <div class="card-footer bg-transparent border-0 pt-0 d-flex justify-content-center gap-2">
+                            <a asp-action="Details" asp-route-entryId="@item.Id" class="btn btn-outline-primary btn-sm">Details</a>
+                            <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-outline-secondary btn-sm">Edit</a>
+                            <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-outline-danger btn-sm">Delete</a>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+</div>

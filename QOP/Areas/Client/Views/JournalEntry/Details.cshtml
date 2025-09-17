@@ -1,149 +1,39 @@
 ﻿@model JournalEntry
 
-@* @{
-    ViewData["Title"] = "Details";
-} *@
+@{
+    ViewData["Title"] = "Journal Entry Details";
+}
 
-@* <h1>Details</h1> *@
-
-@* <div>
-    <h4>JournalEntry</h4>
-    <hr />
-    <dl class="row"> *@
-@*         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.ClientId)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.ClientId)
-        </dd> *@
-@*         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.JournalId)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.JournalId)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.AppointmentId)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.AppointmentId)
-        </dd> *@
-@*         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Entry)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Entry)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.EntryDate)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.EntryDate)
-        </dd>
-    </dl>
-</div> *@
-<form method="post">
-   <div class="card shadow border-0 mt-4 mb-4">
-        <div class="card-header bg-secondary bg-gradient text-light py-4">
-            <div class="row">
-                <div class="col-12 text-center">
-                    <h3 class="text-white text-uppercase">@Model.EntryDate</h3>
-                    @* <p class="text-white-50 fw-semibold mb-0">by @Model.JournalEntry.ApplicationUser</p> *@
+<div class="container my-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="card shadow border-0">
+                <div class="card-header bg-secondary bg-gradient text-center py-3">
+                    <h2 class="text-white mb-0">Journal Entry Details</h2>
                 </div>
-            </div>
-        </div>
-        <div class="card-body">
-            <div class="py-3">
-                <div class="row">
-                    <div class="col-6 col-md-2">
-                        <a asp-action="Index" class="btn btn-outline-primary bg-gradient mb-5 fw-semibold btn-sm text-uppercase">
-                            <small>Back to List</small>
-                        </a>
+                <div class="card-body p-4">
+                    <div class="mb-4 text-center">
+                        <span class="badge bg-primary fs-6">
+                            @Model.EntryDate.ToString("f")
+                        </span>
                     </div>
-                    <div class="col-6 col-md-2">
-                        <a asp-action="Edit" asp-route-id="@Model?.Id" class="btn btn-outline-primary bg-gradient mb-5 fw-semibold btn-sm text-uppercase">
-                            <small>Edit</small>
-                        </a>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-12 col-lg-6 offset-lg-1">
-
-                        <div class="col-12 col-md-6 pb-4">
-                            <span class="badge">@Model.ApplicationUser.Email</span>
+                    <div class="mb-4">
+                        <div>
+                            <span class="badge bg-info text-dark">@Model.ApplicationUser?.Email</span>
                         </div>
-                      @*<div class="row ps-2">
-                            <h6 class="text-dark text-opacity-50 ">ISBN : @Model.Product.ISBN</h6>
-                        </div> *@
-                        @* <div class="row ps-2">
-                            <h6 class="text-dark text-opacity-50  pb-2">
-                                List Price:
-                                <span class="text-decoration-line-through">
-                                    @Model.Product.ListPrice.ToString("c")
-                                </span>
-                            </h6>
-                        </div> *@
-                        @* <div class="row text-center ps-2">
-                            <div class="p-1 col-3 col-lg-2 bg-white border-bottom">
-                                <div class="text-dark text-opacity-50 fw-semibold">Quantity</div>
-                            </div>
-                            <div class="p-1 col-3 col-lg-2 bg-white border-bottom">
-                                <div class="text-dark text-opacity-50 fw-semibold">1-50</div>
-                            </div>
-                            <div class="p-1 col-3 col-lg-2 bg-white border-bottom">
-                                <div class="text-dark text-opacity-50 fw-semibold">51-100</div>
-                            </div>
-                            <div class="p-1 col-3 col-lg-2 bg-white border-bottom">
-                                <div class="text-dark text-opacity-50 fw-semibold">100+</div>
-                            </div>
-                        </div> *@
-                        @* <div class="row text-center ps-2">
-                            <div class="p-1 col-3 col-lg-2 bg-white text-warning fw-bold">
-                                <div>Price</div>
-                            </div>
-                            <div class="p-1 col-3 col-lg-2 bg-white text-warning fw-bold">
-                                <div>@Model.Product.Price.ToString("c")</div>
-                            </div>
-                            <div class="p-1 col-3 col-lg-2 bg-white text-warning fw-bold">
-                                <div>@Model.Product.Price50.ToString("c")</div>
-                            </div>
-                            <div class="p-1 col-3 col-lg-2 bg-white text-warning fw-bold">
-                                <div>@Model.Product.Price100.ToString("c")</div>
-                            </div>
-                        </div> *@
-                        <div class="row pl-2 my-3">
-                            <p class="text-secondary lh-sm">@Html.Raw(Model.Entry)</p>
-                        </div>
-                        @* <div class="row pl-2 mb-3">
-                            <div class="col-md-4">
-                                <div class="input-group mb-3">
-                                    <span class="input-group-text bg-primary text-white border-0 fw-semibold"
-                                          id="inputGroup-sizing-default">
-                                        Count
-                                    </span>
-                                    <input asp-for="Count" type="number" value="1" class="form-control text-end"
-                                           aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" />
-
-                                </div>
-                            </div>
-                        </div> *@
-                        @* <div class="row">
-                            <div class="col-12 col-md-6 pb-1">
-                                <button type="submit"
-                                        class="btn btn-primary bg-gradient  w-100 py-2 text-uppercase fw-semibold">
-                                    Add to Cart
-                                </button>
-                            </div>
-                        </div> *@
                     </div>
-
+                    <div class="mb-4">
+                        <label class="form-label text-muted">Entry</label>
+                        <div class="border rounded p-3 bg-light">
+                            <p class="text-secondary lh-base mb-0">@Html.Raw(Model.Entry)</p>
+                        </div>
+                    </div>
+                    <div class="d-flex gap-3 justify-content-end">
+                        <a asp-action="Edit" asp-route-id="@Model?.Id" class="btn btn-primary px-4" role="button">Edit</a>
+                        <a asp-action="Index" class="btn btn-outline-primary px-4" role="button">Back to List</a>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</form>
-
-<div>
-    <a asp-action="Edit" asp-route-entryId="@Model?.Id">Edit</a> |
-    <a asp-action="Index">Back to List</a>
 </div>

@@ -25,8 +25,8 @@
                         </a>
                     </div>
                 <div class="col-6 col-md-2">
-                        <a asp-controller="Appointment" asp-action="Edit" asp-route-id="@Model?.Id" class="btn btn-outline-primary bg-gradient mb-5 fw-semibold btn-sm text-uppercase">
-                            <small>Edit</small>
+                        <a asp-controller="Appointment" asp-action="Cancel" asp-route-id="@Model?.Id" class="btn btn-outline-primary bg-gradient mb-5 fw-semibold btn-sm text-uppercase">
+                            <small>Cancel Appointment</small>
                         </a>
                     </div>
             </div>
@@ -77,7 +77,7 @@
 </div>
 </form>
 <div>
-    <a asp-controller="Appointment" asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> |
+    <a asp-controller="Appointment" asp-action="Cancel" asp-route-id="@Model?.Id">Cancel Appointment</a> |
     <a asp-controller="Home" asp-action="Index">Back to List</a>
 </div>
 

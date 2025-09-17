@@ -73,6 +73,8 @@ namespace QOP.Areas.Staff.Controllers
         // GET: Admin/Appointment/Create
         public IActionResult Create()
         {
+            var users = _unitOfWork.ApplicationUser.GetAll().Select(u => new { u.Id, u.Name }).ToList();
+            ViewBag.ClientList = new SelectList(users, "Id", "Name");
             return View();   
         }
 
@@ -83,20 +85,38 @@ namespace QOP.Areas.Staff.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(Appointment obj)
         {
-            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier) ?? string.Empty;
             var appUser = _unitOfWork.ApplicationUser.Get(u => u.Id == userId);
-            string staffName = appUser.Name;
+            string staffName = appUser?.Name ?? string.Empty;
+
+            // Assign ClientId and ClientName if a client is selected in the dropdown
+            if (!string.IsNullOrEmpty(obj.ClientId))
+            {
+                var clientUser = _unitOfWork.ApplicationUser.Get(u => u.Id == obj.ClientId);
+                if (clientUser != null && !string.IsNullOrEmpty(clientUser.Name))
+                {
+                    obj.ClientName = clientUser.Name;
+                }
+                else
+                {
+                    obj.ClientName = string.Empty;
+                }
+            }
+            else
+            {
+                obj.ClientId = string.Empty;
+                obj.ClientName = string.Empty;
+            }
 
             if (ModelState.IsValid)
             {
-                obj.ApplicationUser = appUser;
+                obj.ApplicationUser = appUser!;
                 obj.ApplicationUserId = userId;
                 obj.StaffName = staffName;
                 _unitOfWork.Appointment.Add(obj);
                 _unitOfWork.Save();
                 TempData["success"] = "Appointment Added Successfully";
                 return RedirectToAction("Index");
-
             }
             return View(obj);
         }

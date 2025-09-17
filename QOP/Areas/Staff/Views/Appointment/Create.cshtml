@@ -1,60 +1,94 @@
 ﻿@model QOP.Models.Appointment 
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Create Appointment";
 }
 
-<h1>Create Appointment</h1>
+<style>
+    .create-card {
+        min-height: 320px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+    }
+</style>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 
-<h4>Appointment</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                @* <label asp-for="ClientId" class="control-label"></label> *@
-                <input asp-for="ClientId" hidden class="form-control" />
-                @* <span asp-validation-for="ClientId" class="text-danger"></span> *@
+<div class="container py-4">
+    <div class="row justify-content-center">
+        <div class="col-lg-7">
+            <div class="card create-card shadow border-0">
+                <div class="card-header bg-secondary bg-gradient text-center py-3">
+                    <h2 class="text-white mb-0">Create Appointment</h2>
+                </div>
+                <div class="card-body p-4">
+                    <form asp-action="Create">
+                        <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+                        <input asp-for="ClientId" type="hidden" />
+                        <div class="mb-4 form-check">
+                            <input class="form-check-input" asp-for="isTransportAppt" />
+                            <label class="form-check-label" asp-for="isTransportAppt"></label>
+                        </div>
+                        <div class="mb-4">
+                            <label asp-for="ApptDate" class="form-label"></label>
+                            <input asp-for="ApptDate" class="form-control" type="date" />
+                            <span asp-validation-for="ApptDate" class="text-danger"></span>
+                        </div>
+                        <div class="mb-4">
+                            <label asp-for="ApptTime" class="form-label"></label>
+                            <input asp-for="ApptTime" class="form-control" id="apptTimePicker" type="text" />
+                            <span asp-validation-for="ApptTime" class="text-danger"></span>
+                        </div>
+                        <div class="mb-4">
+                            <label asp-for="status" class="form-label"></label>
+                            <select asp-for="status" class="form-select">
+                                <option value="Available">Available</option>
+                                <option value="Confirmed">Confirmed</option>
+                                <option value="Cancelled">Cancelled</option>
+                            </select>
+                            <span asp-validation-for="status" class="text-danger"></span>
+                        </div>
+                        <div class="mb-4">
+                            <label for="ClientId" class="form-label">Schedule With (optional)</label>
+                            <select asp-for="ClientId" class="form-select" asp-items="ViewBag.ClientList">
+                                <option value="">-- Open Availability --</option>
+                            </select>
+                            <span asp-validation-for="ClientId" class="text-danger"></span>
+                        </div>
+                        <div class="d-flex gap-3 justify-content-end">
+                            <button type="submit" class="btn btn-primary px-4">Create</button>
+                            <a asp-action="Index" class="btn btn-outline-primary px-4" role="button">Back to List</a>
+                        </div>
+                    </form>
+                </div>
             </div>
-            @*             <div class="form-group">
-            <label asp-for="StaffId" class="control-label"></label>
-            <input asp-for="StaffId" class="form-control" />
-            <span asp-validation-for="StaffId" class="text-danger"></span>
-            </div> *@
-            <div class="form-group form-check">
-                <label class="form-check-label">
-                    <input class="form-check-input" asp-for="isTransportAppt" /> @Html.DisplayNameFor(model => model.isTransportAppt)
-                </label>
-            </div>
-            <div class="form-group">
-                <label asp-for="ApptDate" class="control-label"></label>
-                <input asp-for="ApptDate" class="form-control" />
-                <span asp-validation-for="ApptDate" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="ApptTime" class="control-label"></label>
-                <input asp-for="ApptTime" class="form-control" />
-                <span asp-validation-for="ApptTime" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="status" class="control-label"></label>
-                <input asp-for="status" class="form-control" />
-                <span asp-validation-for="status" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
-            </div>
-        </form>
+        </div>
     </div>
 </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
-
 @section Scripts {
-    @{
-        await Html.RenderPartialAsync("_ValidationScriptsPartial");
-    }
+    <partial name="_ValidationScriptsPartial"/>
+    <script>
+        flatpickr("#apptTimePicker", {
+            enableTime: true,
+            noCalendar: true,
+            dateFormat: "H:i",
+            time_24hr: false // Set to true for 24-hour format
+        });
+
+        document.addEventListener("DOMContentLoaded", function () {
+            var clientDropdown = document.querySelector('[name="ClientId"]');
+            var statusDropdown = document.querySelector('[name="status"]');
+            if (clientDropdown && statusDropdown) {
+                clientDropdown.addEventListener("change", function () {
+                    if (clientDropdown.value) {
+                        statusDropdown.value = "Confirmed";
+                    } else {
+                        statusDropdown.value = "Available";
+                    }
+                });
+            }
+        });
+    </script>
 }

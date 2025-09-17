@@ -145,7 +145,11 @@ namespace QOP.Areas.Client.Controllers
         // GET: Client/JournalEntry/Create
         public IActionResult Create()
         {
-            return View();
+            var entry = new JournalEntry
+            {
+                EntryDate = DateTime.Now
+            };
+            return View(entry);
             //JournalEntryVM journalEntryVM = new()
             //{
             //    JournalEntry = new JournalEntry()

@@ -1,0 +1,33 @@
+﻿@model QOP.Models.Appointment
+
+@{
+    ViewData["Title"] = "Cancel Appointment";
+}
+
+<h2>Cancel Appointment</h2>
+
+<div class="alert alert-warning">
+    <strong>Are you sure you want to cancel this appointment?</strong>
+</div>
+
+<div>
+    <dl class="row">
+        <dt class="col-sm-3">Date</dt>
+        <dd class="col-sm-9">@Model.ApptDate.ToShortDateString()</dd>
+
+        <dt class="col-sm-3">Time</dt>
+        <dd class="col-sm-9">@Model.ApptTime</dd>
+
+        <dt class="col-sm-3">Staff</dt>
+        <dd class="col-sm-9">@Model.StaffName</dd>
+
+        <dt class="col-sm-3">Status</dt>
+        <dd class="col-sm-9">@Model.status</dd>
+    </dl>
+</div>
+
+<form asp-action="Cancel" method="post">
+    <input type="hidden" asp-for="Id" />
+    <button type="submit" class="btn btn-danger">Cancel Appointment</button>
+    <a asp-action="Index" class="btn btn-secondary">Back to List</a>
+</form>
