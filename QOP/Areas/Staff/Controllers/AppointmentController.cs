@@ -104,8 +104,8 @@ namespace QOP.Areas.Staff.Controllers
             }
             else
             {
-                obj.ClientId = string.Empty;
-                obj.ClientName = string.Empty;
+                obj.ClientId = null;
+                obj.ClientName = null;
             }
 
             if (ModelState.IsValid)
@@ -176,8 +176,11 @@ namespace QOP.Areas.Staff.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> ClaimSlot(Appointment obj)//int id, [Bind("Id,ClientId,StaffId,isTransportAppt,ApptDate,ApptTime,status")] Appointment appointment)
+        public async Task<IActionResult> ClaimSlot(Appointment obj)
         {
+            // Set status to "Confirmed" when a client claims the slot
+            obj.status = "Confirmed";
+
             if (ModelState.IsValid)
             {
                 _unitOfWork.Appointment.Update(obj);
@@ -185,7 +188,7 @@ namespace QOP.Areas.Staff.Controllers
                 TempData["success"] = "Appointment Updated Successfully";
                 return RedirectToAction("Index");
             }
-            return View();
+            return View(obj);
         }
 
         // GET: Admin/Appointment/Delete/5

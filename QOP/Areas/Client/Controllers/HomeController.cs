@@ -121,6 +121,7 @@ namespace QOP.Areas.Client.Controllers
             {
                 obj.ClientId = userId;
                 obj.ClientName = clientName;
+                obj.status = "Confrimed";
                 _unitOfWork.Appointment.Update(obj);
                 _unitOfWork.Save();
                 TempData["success"] = "Appointment Updated Successfully";
